@@ -1,8 +1,5 @@
 import useFetch from "./useFetch";
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import Bloglist from "./Bloglist";
 
 const Home = () => {
@@ -13,13 +10,8 @@ const Home = () => {
   } = useFetch("http://localhost:8000/blogs/");
   const [blogsState, setBlogsState] = useState(blogs);
 
-  // Blog Add section
-  // const [title, setTitle] = useState("");
-  // const [body, setBody] = useState("");
-  // const [author, setAuthor] = useState("Mario");
-  // const [isThisPending, setIsThisPending] = useState(false);
-
   const [actionType, setActionType] = useState("add");
+  // Add a new blog post to the list.
 
   const [formData, setFormData] = useState({
     title: "",
@@ -40,8 +32,6 @@ const Home = () => {
   useEffect(() => {
     setBlogsState(blogs);
   }, [blogs]);
-
-  // const location = useNavigate();
   const handleFormSubmitation = (e) => {
     e.preventDefault();
     if (actionType === "add") {
@@ -55,19 +45,6 @@ const Home = () => {
         })
         .then((data) => {
           setBlogsState((prevBlogsState) => [...prevBlogsState, data]);
-          // console.log("blog added");
-          // // setIsThisPending(false);
-          // toast.success("Blog Added", {
-          //   position: "top-right",
-          //   autoClose: 2000,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          //   theme: "light",
-          // });
-          // location("/");
         });
     } else if (actionType === "edit") {
       fetch(`http://localhost:8000/blogs/${formData.id}`, {
@@ -82,18 +59,6 @@ const Home = () => {
           setBlogsState((prevBlogsState) =>
             prevBlogsState.map((blog) => (blog.id === data.id ? data : blog))
           );
-          // console.log("blog Updated");
-          // toast.success("Blog Updated", {
-          //   position: "top-right",
-          //   autoClose: 2000,
-          //   hideProgressBar: false,
-          //   closeOnClick: true,
-          //   pauseOnHover: true,
-          //   draggable: true,
-          //   progress: undefined,
-          //   theme: "light",
-          // });
-          // location("/");
         });
     }
     setFormData({
@@ -124,18 +89,6 @@ const Home = () => {
         setBlogsState((prevBlogsState) =>
           prevBlogsState.filter((blog) => blog.id !== data.id)
         );
-        // console.log("blog deleted");
-        // toast.error("Blog Deleted", {
-        //   position: "top-right",
-        //   autoClose: 2000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "light",
-        // });
-        // location("/");
       });
   };
 
@@ -165,7 +118,6 @@ const Home = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                // onChange={(e) => setTitle(e.target.value)}
               />
               <label>Blog Body:</label>
               <textarea
@@ -173,14 +125,12 @@ const Home = () => {
                 name="body"
                 value={formData.body}
                 onChange={handleChange}
-                // onChange={(e) => setBody(e.target.value)}
               ></textarea>
               <label>Blog Author:</label>
               <select
                 value={formData.author}
                 name="author"
                 onChange={handleChange}
-                // onChange={(e) => setAuthor(e.target.value)}
               >
                 <option value="Mario">Mario</option>
                 <option value="Jin">Jin</option>
@@ -191,7 +141,6 @@ const Home = () => {
                 {actionType === "add" ? "Add Blog" : "Edit Blog"}
               </button>
             </form>
-            {/* <ToastContainer /> */}
           </section>
         </div>
       </section>
